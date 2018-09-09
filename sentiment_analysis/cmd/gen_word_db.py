@@ -54,6 +54,7 @@ for word in words:
     sig_word.median_q25 = np.percentile(ratings, 25)
     sig_word.median_q50 = np.percentile(ratings, 50)
     sig_word.median_q75 = np.percentile(ratings, 75)
+    sig_word.iqr = sig_word.median_q75 - sig_word.median_q25
     try: sig_word.mode = stats.mode(ratings)
     except: pass
     try: sig_word.median = stats.median(ratings)

@@ -34,6 +34,7 @@ class SigWord(Entity):
     median_q25 = sa.Column(sa.Float(4))
     median_q50 = sa.Column(sa.Float(4))
     median_q75 = sa.Column(sa.Float(4))
+    iqr = sa.Column(sa.Float(4))
     mode = sa.Column(sa.Float(3))
     mean = sa.Column(sa.Float(4))
     stdev = sa.Column(sa.Float(5))
