@@ -17,6 +17,10 @@ class GameReview(Entity):
     comment = sa.Column(sa.Text)
     comment_lower = sa.Column(sa.Text)
 
+    def __repr__(self):
+        return '<GameReview %d %d %.2f "%s">' % (self.user_id, self.game_id,
+            self.rating, self.comment[:15])
+
 class SigWord(Entity):
     """
     Significant Word Table.
@@ -37,9 +41,9 @@ class SigWord(Entity):
     variance = sa.Column(sa.Float(5))
     pvariance = sa.Column(sa.Float(5))
 
-    def __repr__(self):
-        return '<SigWord %s [%.3f, %.3f, %.3f] %d>' % (
-            self.word, self.median_q25, self.median_q50, self.median_q75, self.count)
+    @classmethod
+    def get_by_word(cls, word):
+        return cls.query.filter(cls.word==word).first()
 
     @property
     def ratings(self):
@@ -47,6 +51,10 @@ class SigWord(Entity):
         for usage in self.usages:
             ratings += ([usage.game_review.rating] * usage.count)
         return ratings
+
+    def __repr__(self):
+        return '<SigWord %s [%.3f, %.3f, %.3f] %d>' % (
+            self.word, self.median_q25, self.median_q50, self.median_q75, self.count)
 
 
 class SigWordUse(Entity):
@@ -76,5 +84,5 @@ class SigWordUse(Entity):
         return oh.groupby(['game_id', 'user_id', '_rating']).sum().reset_index()
 
     def __repr__(self):
-        return '<SigWordUse %s %d %d>' % (
+        return '<SigWordUse %s %.2f %d>' % (
             self.sig_word.word, self.game_review.rating, self.count)

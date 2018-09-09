@@ -15,28 +15,34 @@ class BaseEntity(object):
     """Base class for all database Entitys"""
 
     @classmethod
+    def count(cls):
+        return len(cls.all())
+
+    @classmethod
     def all(cls):
+        """Get all Entities"""
         return cls.query.all()
 
     @classmethod
-    def get(self, id):
-        """Get a Entity by it's PK"""
-        return self.query.filter(self.id == id).first()
+    def get(cls, id):
+        """Get an Entity by it's PK"""
+        return cls.query.filter(cls.id == id).first()
 
     @classmethod
     def get_by_ids(cls, id_list):
+        """Get a list of Entities by their PK"""
         if len(id_list) == 0:
             return []
         return cls.query.filter(cls.id.in_(id_list)).all()
 
     def save(self, commit=True):
-        """Creates or updates a Entity in the database"""
+        """Creates or updates an Entity in the database"""
         db_session.add(self)
         if commit:
             db_session.commit()
 
     def delete(self, commit=True):
-        """Removes a Entity from the database"""
+        """Removes an Entity from the database"""
         db_session.delete(self)
         if commit:
             db_session.commit()
