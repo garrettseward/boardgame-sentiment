@@ -16,6 +16,7 @@ class GameReview(Entity):
     rating = sa.Column(sa.Float(3))
     comment = sa.Column(sa.Text)
     comment_lower = sa.Column(sa.Text)
+    train = sa.Column(sa.Boolean)
 
     def __repr__(self):
         return '<GameReview %d %d %.2f "%s">' % (self.user_id, self.game_id,
@@ -77,6 +78,7 @@ class SigWordUse(Entity):
             FROM sig_word_use AS swu
             LEFT JOIN game_review AS gr ON gr.id=swu.game_review_id
             LEFT JOIN sig_word AS sw on sw.id=swu.sig_word_id
+            WHERE gr.train=false
             ORDER BY word ASC
         """, engine)
         dummies = pd.get_dummies(df.word, prefix=None)

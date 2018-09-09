@@ -12,13 +12,15 @@ import sqlalchemy as sa
 from collections import Counter
 from nltk.corpus import stopwords
 
-from sentiment_analysis.database import db_session
+from sentiment_analysis.database import db_session, engine
 from sentiment_analysis.entities import GameReview, SigWord, SigWordUse
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-df = pd.read_csv('%s/../../data/raw/sample.csv' % dir_path)
+df = pd.read_sql_query("""
+    SELECT * FROM game_review WHERE train=true
+""", engine)
 
 sw = set(stopwords.words('english'))
 
