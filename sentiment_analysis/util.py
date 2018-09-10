@@ -14,7 +14,7 @@ def plot_results(actual, expected):
     plt.scatter(actual, expected, color=green, alpha=0.5)
     plt.plot([0, 10], [0, 10], color='red')
     plt.show()
-    plt.title('Predicted (green) vs Actual (red)')
+    plt.title('Predicted (red) vs Actual (green)')
     plt.ylabel('Review Count')
     plt.xlabel('Rating')
     plt.hist(actual, 40, facecolor=green)
