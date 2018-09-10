@@ -15,10 +15,6 @@ class BaseEntity(object):
     """Base class for all database Entitys"""
 
     @classmethod
-    def count(cls):
-        return len(cls.all())
-
-    @classmethod
     def all(cls):
         """Get all Entities"""
         return cls.query.all()
